@@ -28,7 +28,7 @@ internal class Startup : FunctionsStartup
         builder.Services.AddSingleton(_ =>
         {
             var endpoint = new Uri(Environment.GetEnvironmentVariable("CognitiveSearchOptions:Endpoint") ?? throw new NullReferenceException("CognitiveSearchOptions:Endpoint"));
-            var queryKey = Environment.GetEnvironmentVariable("CognitiveSearchOptions:queryKey") ?? throw new NullReferenceException("CognitiveSearchOptions:queryKey");
+            var queryKey = Environment.GetEnvironmentVariable("CognitiveSearchOptions:QueryKey") ?? throw new NullReferenceException("CognitiveSearchOptions:QueryKey");
             var indexName = Environment.GetEnvironmentVariable("CognitiveSearchOptions:IndexName") ?? throw new NullReferenceException("CognitiveSearchOptions:IndexName");
 
             var jsonSerializerOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };

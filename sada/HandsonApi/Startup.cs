@@ -2,6 +2,7 @@ using Azure;
 using Azure.AI.OpenAI;
 using Azure.Core.Serialization;
 using Azure.Search.Documents;
+using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -37,5 +38,17 @@ internal class Startup : FunctionsStartup
 
             return new SearchClient(endpoint, indexName, new AzureKeyCredential(queryKey), searchClientOptions);
         });
+
+        // CosmosClient の登録
+        builder.Services.AddSingleton(_ =>
+        {
+            var connectionString = Environment.GetEnvironmentVariable("CosmosConnection") ?? throw new NullReferenceException("CosmosConnection");
+            var options = new CosmosClientOptions
+            {
+                SerializerOptions = new CosmosSerializationOptions { PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase }
+            };
+            return new CosmosClient(connectionString, options);
+        });
+
     }
 }
